@@ -20,7 +20,6 @@ import org.denarius.telii.logging.Log;
 import org.denarius.telii.migrations.ApplicationMigrationActivity;
 import org.denarius.telii.migrations.ApplicationMigrations;
 import org.denarius.telii.pin.PinRestoreActivity;
-import org.denarius.telii.profiles.ProfileName;
 import org.denarius.telii.profiles.edit.EditProfileActivity;
 import org.denarius.telii.push.SignalServiceNetworkAccess;
 import org.denarius.telii.recipients.Recipient;
@@ -186,7 +185,7 @@ public abstract class PassphraseRequiredActionBarActivity extends BaseActionBarA
   }
 
   private boolean userMustCreateSignalPin() {
-    return !SignalStore.registrationValues().isRegistrationComplete() && !SignalStore.kbsValues().hasPin();
+    return !SignalStore.registrationValues().isRegistrationComplete() && !SignalStore.kbsValues().hasPin() && !SignalStore.kbsValues().lastPinCreateFailed();
   }
 
   private boolean userMustSetProfileName() {

@@ -1933,6 +1933,7 @@
     <string name="CreateKbsPinFragment__you_can_choose_a_new_pin_as_long_as_this_device_is_registered">You can change your PIN as long as this device is registered.</string>
     <string name="CreateKbsPinFragment__create_your_pin">Create your PIN</string>
     <string name="CreateKbsPinFragment__pins_keep_information_stored_with_signal_encrypted">PINs keep information stored with Telii encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall Telii.</string>
+    <string name="CreateKbsPinFragment__choose_a_stronger_pin">Choose a stronger PIN</string>
 
     <!-- ConfirmKbsPinFragment -->
     <string name="ConfirmKbsPinFragment__pins_dont_match">PINs don\'t match. Try again.</string>
@@ -2032,7 +2033,7 @@
     <string name="Permissions_continue">Continue</string>
     <string name="Permissions_not_now">Not now</string>
     <string name="ConversationListActivity_signal_needs_contacts_permission_in_order_to_search_your_contacts_but_it_has_been_permanently_denied">Telii needs Contacts permission in order to search your contacts, but it has been permanently denied. Please continue to app settings, select \"Permissions\", and enable \"Contacts\".</string>
-    <string name="conversation_activity__enable_signal_messages">ENABLE SENDIT MESSAGES</string>
+    <string name="conversation_activity__enable_signal_messages">ENABLE TELII MESSAGES</string>
     <string name="SQLCipherMigrationHelper_migrating_signal_database">Migrating Telii database</string>
     <string name="PushDecryptJob_new_locked_message">New locked message</string>
     <string name="PushDecryptJob_unlock_to_view_pending_messages">Unlock to view pending messages</string>
