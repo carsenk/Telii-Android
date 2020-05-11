@@ -45,9 +45,9 @@
               android:layout_below="@id/toolbar"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:name="org.thoughtcrime.securesms.ContactSelectionListFragment" />
+              android:name="org.denarius.telii.ContactSelectionListFragment" />
 
-    <org.thoughtcrime.securesms.components.SearchToolbar
+    <org.denarius.telii.components.SearchToolbar
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

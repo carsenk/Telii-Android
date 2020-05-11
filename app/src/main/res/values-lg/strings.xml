@@ -477,7 +477,7 @@ gy\'olonze (%s) sintuufu.</string>
   <string name="log_submit_activity__log_fetch_failed">Tesobodde ku soma kabonero ku kyuma kyo. Okyasobola okukozesa ABD okufuna akaboneero ka debug.</string>
   <string name="log_submit_activity__thanks">Webale obuyambi bwo</string>
   <string name="log_submit_activity__submitting">Kiwerezebwa</string>
-  <string name="log_submit_activity__no_browser_installed">Teli kibanja kitekedwamu</string>
+  <string name="log_submit_activity__no_browser_installed">Telii kibanja kitekedwamu</string>
   <string name="log_submit_activity__button_got_it">Nkyifunye</string>
   <!--database_migration_activity-->
   <string name="database_migration_activity__would_you_like_to_import_your_existing_text_messages">Wandiyagade okuyingiza obubakabwo mu terekero ya bwino elibuzabuzidwamu mu Signal?</string>
@@ -565,7 +565,7 @@ gy\'olonze (%s) sintuufu.</string>
   <string name="arrays__disabled">Egyiddwaako</string>
   <string name="arrays__name_and_message">Erinya n\'emessage</string>
   <string name="arrays__name_only">Linnya lyoka</string>
-  <string name="arrays__no_name_or_message">Teli linnya oba obubaka</string>
+  <string name="arrays__no_name_or_message">Telii linnya oba obubaka</string>
   <string name="arrays__images">Ebifaananyi</string>
   <string name="arrays__audio">Doboozi</string>
   <string name="arrays__video">Vidiyo</string>

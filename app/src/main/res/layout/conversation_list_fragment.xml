@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-      <org.thoughtcrime.securesms.components.AvatarImageView
+      <org.denarius.telii.components.AvatarImageView
           android:id="@+id/toolbar_icon"
           android:layout_width="58dp"
           android:layout_height="48dp"
@@ -79,7 +79,7 @@
       app:layout_constraintTop_toTopOf="parent"
       app:titleTextAppearance="@style/TextSecure.TitleTextStyle" />
 
-  <org.thoughtcrime.securesms.components.SearchToolbar
+  <org.denarius.telii.components.SearchToolbar
       android:id="@+id/search_toolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
 
   </LinearLayout>
 
-  <org.thoughtcrime.securesms.components.reminder.ReminderView
+  <org.denarius.telii.components.reminder.ReminderView
       android:id="@+id/reminder"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
         android:layout_height="match_parent"
         app:layout_behavior=".util.views.SlideUpWithSnackbarBehavior">
 
-      <org.thoughtcrime.securesms.components.registration.PulsingFloatingActionButton
+      <org.denarius.telii.components.registration.PulsingFloatingActionButton
           android:id="@+id/camera_fab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
           app:layout_constraintEnd_toEndOf="@id/fab"
           app:srcCompat="@drawable/ic_camera_solid_24" />
 
-      <org.thoughtcrime.securesms.components.registration.PulsingFloatingActionButton
+      <org.denarius.telii.components.registration.PulsingFloatingActionButton
           android:id="@+id/fab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"

@@ -1,4 +1,6 @@
-import org.signal.signing.ApkSignerUtil
+ext {
+    key0 = 'C:\\Users\\carse\\Documents\\keystoreandroid.jks'
+}//import org.signal.signing.ApkSignerUtil
 
 import java.security.MessageDigest
 
@@ -15,7 +17,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.6.3'
         classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
     }
@@ -59,6 +61,9 @@ repositories {
             includeGroupByRegex "com\\.amulyakhare.*"
         }
     }
+    maven {
+        url "https://jitpack.io"
+    }
     google()
     mavenCentral()
     jcenter()
@@ -80,8 +85,8 @@ protobuf {
     }
 }
 
-def canonicalVersionCode = 625
-def canonicalVersionName = "4.59.5"
+def canonicalVersionCode = 632
+def canonicalVersionName = "1.0.3"
 
 def postFixSize = 10
 def abiPostFix = ['universal'   : 0,
@@ -91,6 +96,14 @@ def abiPostFix = ['universal'   : 0,
                   'x86_64'      : 4]
 
 android {
+    signingConfigs {
+        release {
+            storeFile file(key0)
+            storePassword 'carsen69'
+            keyAlias = 'key0'
+            keyPassword 'carsen69'
+        }
+    }
     flavorDimensions "none"
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -104,12 +117,12 @@ android {
         versionCode canonicalVersionCode * postFixSize
         versionName canonicalVersionName
 
-        minSdkVersion 19
+        minSdkVersion 24 //was 19
         targetSdkVersion 28
         multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
-        project.ext.set("archivesBaseName", "Signal");
+        project.ext.set("archivesBaseName", "Telii");
 
         buildConfigField "long", "BUILD_TIMESTAMP", getLastCommitTimestamp() + "L"
         buildConfigField "String", "SIGNAL_URL", "\"https://textsecure-service.whispersystems.org\""
@@ -146,6 +159,7 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     compileOptions {
@@ -210,6 +224,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles = buildTypes.debug.proguardFiles
+            signingConfig null
         }
     }
 
@@ -223,21 +238,15 @@ android {
 
         website {
             dimension "none"
-            ext.websiteUpdateUrl = "https://updates.signal.org/android"
+            ext.websiteUpdateUrl = "https://updates.telii.org/android"
             buildConfigField "boolean", "PLAY_STORE_DISABLED", "true"
             buildConfigField "String", "NOPLAY_UPDATE_URL", "\"$ext.websiteUpdateUrl\""
         }
     }
 
     android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFileName = output.outputFileName.replace(".apk", "-${variant.versionName}.apk")
-            def abiName = output.getFilter("ABI") ?: 'universal'
-            def postFix = abiPostFix.get(abiName, 0)
-
-            if (postFix >= postFixSize) throw new AssertionError("postFix is too large")
-
-            output.versionCodeOverride = canonicalVersionCode * postFixSize + postFix
+        variant.outputs.all {
+            outputFileName = outputFileName.replace(".apk", "-${variant.versionName}.apk")
         }
     }
 
@@ -276,6 +285,10 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:1.0.0-beta01"
     implementation "androidx.concurrent:concurrent-futures:1.0.0"
     implementation "androidx.autofill:autofill:1.0.0"
+    implementation "com.android.volley:volley:1.1.1"
+    implementation "com.google.code.gson:gson:2.4"
+    implementation group: 'com.thetransactioncompany', name: 'jsonrpc2-client', version: '1.16.4'
+    implementation 'io.crossbar.autobahn:autobahn-android:20.2.1'
 
     implementation('com.google.firebase:firebase-messaging:17.3.4') {
         exclude group: 'com.google.firebase', module: 'firebase-core'
@@ -372,68 +385,47 @@ dependencyVerification {
 }
 
 
-def assembleWebsiteDescriptor = { variant, file ->
-    if (file.exists()) {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        file.eachByte 4096, {bytes, size ->
-            md.update(bytes, 0, size);
+task assembleWebsiteDescriptor {
+    android.applicationVariants.all { variant ->
+        if (variant.name.equals("websiteDebug") ||
+                variant.name.equals("websiteRelease"))
+        {
+            File file = new File(variant.outputs[0].outputFile.path)
+
+            if (file.exists()) {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                file.eachByte 4096, {bytes, size ->
+                    md.update(bytes, 0, size);
+                }
+
+                String digest = md.digest().collect {String.format "%02x", it}.join();
+                String url = variant.productFlavors.get(0).ext.websiteUpdateUrl
+                String apkName = variant.outputs[0].outputFile.name
+
+                String descriptor = "{" +
+                        "\"versionCode\" : $project.android.defaultConfig.versionCode," +
+                        "\"versionName\" : \"$project.android.defaultConfig.versionName\"," +
+                        "\"sha256sum\" : \"$digest\"," +
+                        "\"url\" : \"$url/$apkName\"" +
+                        "}"
+
+                File descriptorFile = new File(variant.outputs[0].outputFile.parent, apkName.replace(".apk", ".json"))
+
+                descriptorFile.write(descriptor)
+            }
         }
-
-        String digest  = md.digest().collect {String.format "%02x", it}.join();
-        String url     = variant.productFlavors.get(0).ext.websiteUpdateUrl
-        String apkName = file.getName()
-
-        String descriptor = "{" +
-                "\"versionCode\" : ${canonicalVersionCode * postFixSize + abiPostFix['universal']}," +
-                "\"versionName\" : \"$canonicalVersionName\"," +
-                "\"sha256sum\" : \"$digest\"," +
-                "\"url\" : \"$url/$apkName\"" +
-                "}"
-
-        File descriptorFile = new File(file.getParent(), apkName.replace(".apk", ".json"))
-
-        descriptorFile.write(descriptor)
-    }
-}
-
-def signProductionRelease = { variant ->
-    variant.outputs.collect { output ->
-        String apkName    = output.outputFile.name
-        File   inputFile  = new File(output.outputFile.path)
-        File   outputFile = new File(output.outputFile.parent, apkName.replace('-unsigned', ''))
-
-        new ApkSignerUtil('sun.security.pkcs11.SunPKCS11',
-                          'pkcs11.config',
-                          'PKCS11',
-                          'file:pkcs11.password').calculateSignature(inputFile.getAbsolutePath(),
-                                                                     outputFile.getAbsolutePath())
-
-        inputFile.delete()
-        outputFile
-    }
-}
-
-task signProductionPlayRelease {
-    doLast {
-        signProductionRelease(android.applicationVariants.find { (it.name == 'playRelease') })
-    }
-}
-
-task signProductionWebsiteRelease {
-    doLast {
-        def  variant       = android.applicationVariants.find { (it.name == 'websiteRelease') }
-        File signedRelease = signProductionRelease(variant).find { it.name.contains('universal') }
-        assembleWebsiteDescriptor(variant, signedRelease)
     }
 }
 
 tasks.whenTaskAdded { task ->
-    if (task.name.equals("assemblePlayRelease")) {
-        task.finalizedBy signProductionPlayRelease
+    if (task.name.equals("lint")) {
+        task.enabled = false
     }
 
-    if (task.name.equals("assembleWebsiteRelease")) {
-        task.finalizedBy signProductionWebsiteRelease
+    if (task.name.equals("assembleWebsiteDebug") ||
+            task.name.equals("assembleWebsiteRelease"))
+    {
+        task.finalizedBy assembleWebsiteDescriptor
     }
 }
 
@@ -447,4 +439,29 @@ def getLastCommitTimestamp() {
 
         return os.toString() + "000"
     }
+}
+
+def Properties props = new Properties()
+def propFile = new File('signing.properties')
+
+if (propFile.canRead()){
+    props.load(new FileInputStream(propFile))
+
+    if (props !=null &&
+            props.containsKey('STORE_FILE')     &&
+            props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS')      &&
+            props.containsKey('KEY_PASSWORD'))
+    {
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+}else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
 }

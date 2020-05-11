@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="64dp">
 
-    <org.thoughtcrime.securesms.components.AvatarImageView
+    <org.denarius.telii.components.AvatarImageView
         android:id="@+id/reactions_bottom_view_recipient_avatar"
         android:layout_width="36dp"
         android:layout_height="36dp"
@@ -32,7 +32,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         tools:text="@tools:sample/full_names" />
 
-    <org.thoughtcrime.securesms.components.emoji.EmojiTextView
+    <org.denarius.telii.components.emoji.EmojiTextView
         android:id="@+id/reactions_bottom_view_recipient_emoji"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

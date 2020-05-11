@@ -119,7 +119,7 @@ public class ApkSignerUtil {
     }
 
 
-    return new ApkSigner.SignerConfig.Builder("Signal Signer", privateKey, results).build();
+    return new ApkSigner.SignerConfig.Builder("Telii Signer", privateKey, results).build();
   }
 
   private char[] getPassword(String encoded) throws IOException {

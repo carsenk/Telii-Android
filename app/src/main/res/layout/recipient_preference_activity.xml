@@ -79,7 +79,7 @@
                       style="?android:attr/preferenceCategoryStyle"
                       android:textColor="@color/core_ultramarine"/>
 
-            <org.thoughtcrime.securesms.components.ThreadPhotoRailView
+            <org.denarius.telii.components.ThreadPhotoRailView
                     android:id="@+id/recent_photos"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"

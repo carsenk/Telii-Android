@@ -414,10 +414,10 @@
     <item quantity="other">%1$s invitis %2$d homojn</item>
   </plurals>
   <!--GV2 Invite cancellation confirmation-->
-  <string name="GroupManagement_cancel_own_single_invite">Ĉu vi volas nuligi inviton senditan de vi al %1$s?</string>
+  <string name="GroupManagement_cancel_own_single_invite">Ĉu vi volas nuligi inviton telian de vi al %1$s?</string>
   <plurals name="GroupManagement_cancel_others_invites">
-    <item quantity="one">Ĉu vi volas nuligi la inviton senditan de %1$s?</item>
-    <item quantity="other">Ĉu vi volas nuligi la %2$d invitojn senditajn de %1$s?</item>
+    <item quantity="one">Ĉu vi volas nuligi la inviton telian de %1$s?</item>
+    <item quantity="other">Ĉu vi volas nuligi la %2$d invitojn teliajn de %1$s?</item>
   </plurals>
   <!--CropImageActivity-->
   <string name="CropImageActivity_group_avatar">Bildo de la grupo</string>
@@ -432,7 +432,7 @@
   <string name="InviteActivity_cancel">Nuligi</string>
   <string name="InviteActivity_sending">Sendo…</string>
   <string name="InviteActivity_heart_content_description">Koro</string>
-  <string name="InviteActivity_invitations_sent">Invitoj senditaj!</string>
+  <string name="InviteActivity_invitations_sent">Invitoj teliaj!</string>
   <string name="InviteActivity_invite_to_signal">Inviti al Signal</string>
   <plurals name="InviteActivity_send_sms_to_friends">
     <item quantity="one">SENDI SMS AL %d AMIKO</item>
@@ -672,7 +672,7 @@
   <!--ExpirationDialog-->
   <string name="ExpirationDialog_disappearing_messages">Memviŝontaj mesaĝoj</string>
   <string name="ExpirationDialog_your_messages_will_not_expire">Viaj mesaĝoj ne senvalidiĝos.</string>
-  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Mesaĝoj senditaj kaj ricevitaj en tiu ĉi interparolo malaperos %s post ilia lego.</string>
+  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Mesaĝoj teliaj kaj ricevitaj en tiu ĉi interparolo malaperos %s post ilia lego.</string>
   <!--PassphrasePromptActivity-->
   <string name="PassphrasePromptActivity_enter_passphrase">Entajpu pasfrazon</string>
   <string name="PassphrasePromptActivity_watermark_content_description">Signal-piktogramo</string>
@@ -727,7 +727,7 @@
   <string name="RecipientPreferenceActivity_unblock">Malbloki</string>
   <string name="RecipientPreferenceActivity_enabled">Ŝaltita</string>
   <string name="RecipientPreferenceActivity_disabled">Malŝaltita</string>
-  <string name="RecipientPreferenceActivity_available_once_a_message_has_been_sent_or_received">Disponebla, kiam mesaĝo estis sendita aŭ ricevita.</string>
+  <string name="RecipientPreferenceActivity_available_once_a_message_has_been_sent_or_received">Disponebla, kiam mesaĝo estis telia aŭ ricevita.</string>
   <!--RecipientProvider-->
   <string name="RecipientProvider_unnamed_group">Sennoma grupo</string>
   <!--RedPhone-->
@@ -779,7 +779,7 @@
   <string name="RegistrationActivity_take_privacy_with_you_be_yourself_in_every_message">Kunprenu privatecon.\nEstu vi mem en ĉiu mesaĝo.</string>
   <string name="RegistrationActivity_enter_your_phone_number_to_get_started">Entajpu vian telefonnumeron unue</string>
   <string name="RegistrationActivity_you_will_receive_a_verification_code">Vi ricevos konfirman kodon per SMS. Eble via sendrata provizanto pagigos al vi la SMS-on.</string>
-  <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Bv. entajpi la kontrolkodon senditan al %s.</string>
+  <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Bv. entajpi la kontrolkodon telian al %s.</string>
   <string name="RegistrationActivity_phone_number_description">Telefonnumero</string>
   <string name="RegistrationActivity_country_code_description">Landokodo</string>
   <string name="RegistrationActivity_call">Alvoko</string>
@@ -1763,7 +1763,7 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="ChatsPreferenceFragment_in_progress">Farata</string>
   <string name="LocalBackupJob_creating_backup">Kreo de savkopio…</string>
   <string name="ProgressPreference_d_messages_so_far">%d mesaĝoj ĝis nun</string>
-  <string name="RegistrationActivity_please_enter_the_verification_code_sent_to_s">Bv. entajpi la kontrolkodon senditan al %s.</string>
+  <string name="RegistrationActivity_please_enter_the_verification_code_sent_to_s">Bv. entajpi la kontrolkodon telian al %s.</string>
   <string name="RegistrationActivity_wrong_number">Erara numero</string>
   <string name="RegistrationActivity_call_me_instead_available_in">Alvoki min anstataŭe \n (Disponebla post %1$02d:%2$02d)</string>
   <string name="RegistrationActivity_contact_signal_support">Kontakti Signal-helpon</string>

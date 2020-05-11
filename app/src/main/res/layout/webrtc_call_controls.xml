@@ -8,7 +8,7 @@
     tools:background="@color/textsecure_primary"
     tools:showIn="@layout/webrtc_call_screen">
 
-    <org.thoughtcrime.securesms.components.AccessibleToggleButton
+    <org.denarius.telii.components.AccessibleToggleButton
         android:id="@+id/speakerButton"
         style="@style/WebRtcCallCompoundButton"
         android:layout_marginEnd="16dp"
@@ -18,7 +18,7 @@
         android:contentDescription="@string/WebRtcCallControls_speaker_button_description"
         tools:checked="true" />
 
-    <org.thoughtcrime.securesms.components.AccessibleToggleButton
+    <org.denarius.telii.components.AccessibleToggleButton
         android:id="@+id/bluetoothButton"
         style="@style/WebRtcCallCompoundButton"
         android:layout_width="36dp"
@@ -30,7 +30,7 @@
         tools:checked="true"
         tools:visibility="visible" />
 
-    <org.thoughtcrime.securesms.components.AccessibleToggleButton
+    <org.denarius.telii.components.AccessibleToggleButton
         android:id="@+id/muteButton"
         style="@style/WebRtcCallCompoundButton"
         android:layout_width="36dp"
@@ -40,7 +40,7 @@
         android:contentDescription="@string/WebRtcCallControls_mute_button_description"
         tools:checked="false" />
 
-    <org.thoughtcrime.securesms.components.AccessibleToggleButton
+    <org.denarius.telii.components.AccessibleToggleButton
         android:id="@+id/video_mute_button"
         style="@style/WebRtcCallCompoundButton"
         android:layout_width="36dp"
@@ -49,7 +49,7 @@
         android:background="@drawable/webrtc_video_mute_button"
         android:contentDescription="@string/WebRtcCallControls_your_camera_button_description" />
 
-    <org.thoughtcrime.securesms.components.AccessibleToggleButton
+    <org.denarius.telii.components.AccessibleToggleButton
         android:id="@+id/camera_flip_button"
         style="@style/WebRtcCallCompoundButton"
         android:layout_width="36dp"

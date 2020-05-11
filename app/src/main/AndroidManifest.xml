@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="org.thoughtcrime.securesms">
+          package="org.denarius.telii">
 
     <uses-sdk tools:overrideLibrary="androidx.camera.core,androidx.camera.camera2,androidx.camera.lifecycle" />
 
-    <permission android:name="org.thoughtcrime.securesms.ACCESS_SECRETS"
+    <permission android:name="org.denarius.telii.ACCESS_SECRETS"
                 android:label="Access to TextSecure Secrets"
                 android:protectionLevel="signature" />
 
@@ -20,7 +20,7 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-    <uses-permission android:name="org.thoughtcrime.securesms.ACCESS_SECRETS"/>
+    <uses-permission android:name="org.denarius.telii.ACCESS_SECRETS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.WRITE_PROFILE"/>
     <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"
@@ -97,11 +97,12 @@
                  tools:replace="android:allowBackup"
                  android:allowBackup="false"
                  android:theme="@style/TextSecure.LightTheme"
-                 android:largeHeap="true">
+                 android:largeHeap="true"
+                 android:testOnly="false">
 
     <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCSx9xea86GwDKGznCAULE9Y5a8b-TfN9U"/>
+            android:value="AIzaSyDPsmPC3bR9uaweh7OFL6rEPtx283LanDA"/>
 
     <meta-data android:name="com.google.android.gms.version"
                android:value="@integer/google_play_services_version" />
@@ -113,7 +114,7 @@
     <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
     <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="false" />
 
-    <activity android:name="org.thoughtcrime.securesms.WebRtcCallActivity"
+    <activity android:name="org.denarius.telii.WebRtcCallActivity"
               android:theme="@style/TextSecure.LightTheme.WebRTCCall"
               android:excludeFromRecents="true"
               android:screenOrientation="portrait"
@@ -127,7 +128,7 @@
               android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="org.thoughtcrime.securesms.MainActivity" />
+            android:value="org.denarius.telii.MainActivity" />
     </activity>
 
     <activity android:name=".PromptMmsActivity"
@@ -228,7 +229,7 @@
               android:parentActivityName=".MainActivity">
         <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.thoughtcrime.securesms.MainActivity" />
+                android:value="org.denarius.telii.MainActivity" />
     </activity>
 
     <activity android:name=".longmessage.LongMessageActivity" />
@@ -381,11 +382,11 @@
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
-            <data android:mimeType="vnd.android.cursor.item/vnd.org.thoughtcrime.securesms.contact" />
+            <data android:mimeType="vnd.android.cursor.item/vnd.org.denarius.telii.contact" />
         </intent-filter>
     </activity>
 
-    <activity android:name="org.thoughtcrime.securesms.webrtc.VoiceCallShare"
+    <activity android:name="org.denarius.telii.webrtc.VoiceCallShare"
               android:excludeFromRecents="true"
               android:theme="@style/NoAnimation.Theme.BlackScreen"
               android:launchMode="singleTask"
@@ -394,7 +395,7 @@
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
-            <data android:mimeType="vnd.android.cursor.item/vnd.org.thoughtcrime.securesms.call" />
+            <data android:mimeType="vnd.android.cursor.item/vnd.org.denarius.telii.call" />
         </intent-filter>
 
     </activity>
@@ -437,7 +438,7 @@
             android:label="@string/AndroidManifest_remove_photo">
 
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.action.CLEAR_PROFILE_PHOTO"/>
+            <action android:name="org.denarius.telii.action.CLEAR_PROFILE_PHOTO"/>
             <category android:name="android.intent.category.DEFAULT"/>
         </intent-filter>
     </activity>
@@ -480,7 +481,7 @@
               android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize" />
 
 
-        <service android:enabled="true" android:name="org.thoughtcrime.securesms.service.WebRtcCallService"/>
+        <service android:enabled="true" android:name="org.denarius.telii.service.WebRtcCallService"/>
     <service android:enabled="true" android:name=".service.ApplicationMigrationService"/>
     <service android:enabled="true" android:exported="false" android:name=".service.KeyCachingService"/>
     <service android:enabled="true" android:name=".service.IncomingMessageObserver$ForegroundService"/>
@@ -543,7 +544,7 @@
     <receiver android:name=".service.SmsDeliveryListener"
               android:exported="true">
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.services.MESSAGE_SENT"/>
+            <action android:name="org.denarius.telii.services.MESSAGE_SENT"/>
         </intent-filter>
     </receiver>
 
@@ -565,7 +566,7 @@
               android:enabled="true"
               android:exported="false">
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.notifications.CLEAR"/>
+            <action android:name="org.denarius.telii.notifications.CLEAR"/>
         </intent-filter>
     </receiver>
 
@@ -573,21 +574,21 @@
               android:enabled="true"
               android:exported="false">
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.notifications.WEAR_REPLY"/>
+            <action android:name="org.denarius.telii.notifications.WEAR_REPLY"/>
         </intent-filter>
     </receiver>
 
     <receiver android:name=".notifications.AndroidAutoHeardReceiver"
               android:exported="false">
         <intent-filter>
-          <action android:name="org.thoughtcrime.securesms.notifications.ANDROID_AUTO_HEARD"/>
+          <action android:name="org.denarius.telii.notifications.ANDROID_AUTO_HEARD"/>
         </intent-filter>
     </receiver>
 
     <receiver android:name=".notifications.AndroidAutoReplyReceiver"
               android:exported="false">
         <intent-filter>
-          <action android:name="org.thoughtcrime.securesms.notifications.ANDROID_AUTO_REPLY"/>
+          <action android:name="org.denarius.telii.notifications.ANDROID_AUTO_REPLY"/>
         </intent-filter>
     </receiver>
 
@@ -598,15 +599,15 @@
     <provider android:name=".providers.PartProvider"
               android:grantUriPermissions="true"
               android:exported="false"
-              android:authorities="org.thoughtcrime.provider.securesms" />
+              android:authorities="org.denarius.provider.telii" />
 
     <provider android:name=".providers.MmsBodyProvider"
               android:grantUriPermissions="true"
               android:exported="false"
-              android:authorities="org.thoughtcrime.provider.securesms.mms" />
+              android:authorities="org.denarius.provider.telii.mms" />
 
     <provider android:name="androidx.core.content.FileProvider"
-              android:authorities="org.thoughtcrime.securesms.fileprovider"
+              android:authorities="org.denarius.telii.fileprovider"
               android:exported="false"
               android:grantUriPermissions="true">
 
@@ -615,29 +616,29 @@
     </provider>
 
     <provider android:name=".database.DatabaseContentProviders$Conversation"
-              android:authorities="org.thoughtcrime.securesms.database.conversation"
+              android:authorities="org.denarius.telii.database.conversation"
               android:exported="false" />
 
     <provider android:name=".database.DatabaseContentProviders$ConversationList"
-              android:authorities="org.thoughtcrime.securesms.database.conversationlist"
+              android:authorities="org.denarius.telii.database.conversationlist"
               android:exported="false" />
 
     <provider android:name=".database.DatabaseContentProviders$Attachment"
-              android:authorities="org.thoughtcrime.securesms.database.attachment"
+              android:authorities="org.denarius.telii.database.attachment"
               android:exported="false" />
 
     <provider android:name=".database.DatabaseContentProviders$Sticker"
-              android:authorities="org.thoughtcrime.securesms.database.sticker"
+              android:authorities="org.denarius.telii.database.sticker"
               android:exported="false" />
 
     <provider android:name=".database.DatabaseContentProviders$StickerPack"
-              android:authorities="org.thoughtcrime.securesms.database.stickerpack"
+              android:authorities="org.denarius.telii.database.stickerpack"
               android:exported="false" />
 
     <receiver android:name=".service.BootReceiver">
         <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            <action android:name="org.thoughtcrime.securesms.RESTART"/>
+            <action android:name="org.denarius.telii.RESTART"/>
         </intent-filter>
     </receiver>
 
@@ -679,13 +680,13 @@
 
     <receiver android:name=".notifications.MessageNotifier$ReminderReceiver">
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.MessageNotifier.REMINDER_ACTION"/>
+            <action android:name="org.denarius.telii.MessageNotifier.REMINDER_ACTION"/>
         </intent-filter>
     </receiver>
 
     <receiver android:name=".notifications.DeleteNotificationReceiver">
         <intent-filter>
-            <action android:name="org.thoughtcrime.securesms.DELETE_NOTIFICATION"/>
+            <action android:name="org.denarius.telii.DELETE_NOTIFICATION"/>
         </intent-filter>
     </receiver>
 

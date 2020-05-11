@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.thoughtcrime.securesms.conversation.ConversationItem xmlns:android="http://schemas.android.com/apk/res/android"
+<org.denarius.telii.conversation.ConversationItem xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/conversation_item"
@@ -32,7 +32,7 @@
             app:srcCompat="?menu_reply_icon"
             android:tint="?compose_icon_tint" />
 
-        <org.thoughtcrime.securesms.conversation.ConversationItemBodyBubble
+        <org.denarius.telii.conversation.ConversationItemBodyBubble
             android:id="@+id/body_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:orientation="vertical"
             tools:backgroundTint="@color/core_grey_05">
 
-            <org.thoughtcrime.securesms.components.QuoteView
+            <org.denarius.telii.components.QuoteView
                 android:id="@+id/quote_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:layout_marginBottom="@dimen/message_bubble_collapsed_footer_padding"
                 android:layout="@layout/conversation_item_sent_revealable" />
 
-            <org.thoughtcrime.securesms.components.emoji.EmojiTextView
+            <org.denarius.telii.components.emoji.EmojiTextView
                 android:id="@+id/conversation_item_body"
                 style="@style/Signal.Text.Body"
                 android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
-            <org.thoughtcrime.securesms.components.ConversationItemFooter
+            <org.denarius.telii.components.ConversationItemFooter
                 android:id="@+id/conversation_item_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                 app:footer_icon_color="?attr/conversation_item_sent_icon_color"
                 app:footer_text_color="?attr/conversation_item_sent_text_secondary_color" />
 
-            <org.thoughtcrime.securesms.components.ConversationItemFooter
+            <org.denarius.telii.components.ConversationItemFooter
                 android:id="@+id/conversation_item_sticker_footer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,9 +176,9 @@
                 app:footer_icon_color="?conversation_sticker_footer_icon_color"
                 app:footer_text_color="?conversation_sticker_footer_text_color" />
 
-        </org.thoughtcrime.securesms.conversation.ConversationItemBodyBubble>
+        </org.denarius.telii.conversation.ConversationItemBodyBubble>
 
-        <org.thoughtcrime.securesms.components.AlertView
+        <org.denarius.telii.components.AlertView
             android:id="@+id/indicators_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
             android:orientation="vertical"
             android:paddingBottom="4dp" />
 
-        <org.thoughtcrime.securesms.reactions.ReactionsConversationView
+        <org.denarius.telii.reactions.ReactionsConversationView
             android:id="@+id/reactions_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -200,4 +200,4 @@
 
     </RelativeLayout>
 
-</org.thoughtcrime.securesms.conversation.ConversationItem>
+</org.denarius.telii.conversation.ConversationItem>

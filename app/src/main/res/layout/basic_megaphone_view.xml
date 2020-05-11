@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/profile_splash"/>
 
-    <org.thoughtcrime.securesms.components.emoji.EmojiTextView
+    <org.denarius.telii.components.emoji.EmojiTextView
         android:id="@+id/basic_megaphone_title"
         style="@style/Signal.Text.Body"
         android:layout_width="0dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@id/basic_megaphone_image"
         tools:text="Avengers HQ Destroyed!" />
 
-    <org.thoughtcrime.securesms.components.emoji.EmojiTextView
+    <org.denarius.telii.components.emoji.EmojiTextView
         android:id="@+id/basic_megaphone_body"
         style="@style/Signal.Text.Preview"
         android:layout_width="0dp"

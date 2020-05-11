@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/pending_member_background"
     android:fillViewport="true"
-    tools:context="org.thoughtcrime.securesms.groups.ui.pendingmemberinvites.PendingMemberInvitesFragment">
+    tools:context="org.denarius.telii.groups.ui.pendingmemberinvites.PendingMemberInvitesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pendingmemberinvites"
@@ -49,7 +49,7 @@
                     tools:visibility="visible"
                     android:textColor="?pending_member_empty_text_color" />
 
-                <org.thoughtcrime.securesms.groups.ui.GroupMemberListView
+                <org.denarius.telii.groups.ui.GroupMemberListView
                     android:id="@+id/members_you_invited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                     tools:visibility="visible"
                     android:textColor="?pending_member_empty_text_color" />
 
-                <org.thoughtcrime.securesms.groups.ui.GroupMemberListView
+                <org.denarius.telii.groups.ui.GroupMemberListView
                     android:id="@+id/members_others_invited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -3,7 +3,7 @@
 
     <PreferenceCategory android:title="@string/preferences_storage__storage_usage" />
 
-    <org.thoughtcrime.securesms.preferences.widgets.StoragePreferenceCategory android:key="pref_storage_category" />
+    <org.denarius.telii.preferences.widgets.StoragePreferenceCategory android:key="pref_storage_category" />
 
     <PreferenceCategory android:layout="@layout/preference_divider" />
 
@@ -11,7 +11,7 @@
         android:key="storage_limits"
         android:title="@string/preferences_chats__message_trimming">
 
-        <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
+        <org.denarius.telii.components.SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_trim_threads"
             android:summary="@string/preferences__automatically_delete_older_messages_once_a_conversation_exceeds_a_specified_length"

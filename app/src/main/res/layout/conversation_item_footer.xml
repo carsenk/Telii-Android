@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical|end"
-    tools:parentTag="org.thoughtcrime.securesms.components.ConversationItemFooter">
+    tools:parentTag="org.denarius.telii.components.ConversationItemFooter">
 
     <TextView
         android:id="@+id/footer_date"
@@ -18,7 +18,7 @@
         android:textColor="?conversation_item_sent_text_secondary_color"
         tools:text="30m"/>
 
-    <org.thoughtcrime.securesms.components.ExpirationTimerView
+    <org.denarius.telii.components.ExpirationTimerView
         android:id="@+id/footer_expiration_timer"
         android:layout_marginStart="4dp"
         android:layout_width="12dp"
@@ -55,7 +55,7 @@
         android:contentDescription="@string/conversation_item__secure_message_description"
         tools:visibility="visible"/>
 
-    <org.thoughtcrime.securesms.components.DeliveryStatusView
+    <org.denarius.telii.components.DeliveryStatusView
         android:id="@+id/footer_delivery_status"
         android:layout_marginStart="4dp"
         android:layout_gravity="center_vertical"

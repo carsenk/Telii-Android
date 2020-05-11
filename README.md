@@ -1,23 +1,23 @@
-# Signal Android 
+# Telii Android
 
-Signal is a messaging app for simple private communication with friends.
+Telii is a messaging app for simple private communication with friends.
 
-Signal uses your phone's data connection (WiFi/3G/4G) to communicate securely, optionally supports plain SMS/MMS to function as a unified messenger, and can also encrypt the stored messages on your phone.
+Telii uses your phone's data connection (WiFi/3G/4G) to communicate securely, optionally supports plain SMS/MMS to function as a unified messenger, and can also encrypt the stored messages on your phone.
 
 Currently available on the Play store.
 
-<a href='https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
+<a href='https://play.google.com/store/apps/details?id=org.denarius.telii&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
 
 ## Contributing Bug reports
 We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
-https://github.com/signalapp/Signal-Android/issues
+https://github.com/carsenk/Telii-Android/issues
 
 ## Joining the Beta
 Want to live life on the bleeding edge and help out with testing?
 
-You can subscribe to Signal Android Beta releases here:
-https://play.google.com/apps/testing/org.thoughtcrime.securesms
+You can subscribe to Telii Android Beta releases here:
+https://play.google.com/apps/testing/org.denarius.telii
  
 If you're interested in a life of peace and tranquility, stick with the standard releases.
 

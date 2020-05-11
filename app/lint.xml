@@ -18,8 +18,8 @@
     <issue id="ExtraTranslation" severity="warning" />
 
     <issue id="RestrictedApi" severity="error">
-        <ignore path="*/org/thoughtcrime/securesms/mediasend/camerax/VideoCapture.java" />
-        <ignore path="*/org/thoughtcrime/securesms/mediasend/camerax/CameraXModule.java" />
+        <ignore path="*/org/denarius/telii/mediasend/camerax/VideoCapture.java" />
+        <ignore path="*/org/denarius/telii/mediasend/camerax/CameraXModule.java" />
     </issue>
 
 </lint>

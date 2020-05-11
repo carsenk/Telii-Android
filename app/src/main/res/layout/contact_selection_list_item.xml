@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<org.thoughtcrime.securesms.contacts.ContactSelectionListItem
+<org.denarius.telii.contacts.ContactSelectionListItem
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:paddingStart="@dimen/selection_item_header_width"
         android:paddingEnd="24dp">
 
-    <org.thoughtcrime.securesms.components.AvatarImageView
+    <org.denarius.telii.components.AvatarImageView
             android:id="@+id/contact_photo_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -29,7 +29,7 @@
                   android:layout_marginEnd="16dp"
                   android:orientation="vertical">
 
-        <org.thoughtcrime.securesms.components.FromTextView
+        <org.denarius.telii.components.FromTextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,4 +79,4 @@
               android:focusable="false"
               android:clickable="false" />
 
-</org.thoughtcrime.securesms.contacts.ContactSelectionListItem>
+</org.denarius.telii.contacts.ContactSelectionListItem>

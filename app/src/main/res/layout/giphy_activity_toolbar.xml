@@ -51,7 +51,7 @@
                        android:tint="?conversation_subtitle_color"
                        app:srcCompat="@drawable/ic_x" />
 
-            <org.thoughtcrime.securesms.components.AnimatingToggle
+            <org.denarius.telii.components.AnimatingToggle
                     android:id="@+id/button_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                            android:background="@drawable/circle_touch_highlight_background"
                            app:srcCompat="@drawable/ic_view_stream_24" />
 
-            </org.thoughtcrime.securesms.components.AnimatingToggle>
+            </org.denarius.telii.components.AnimatingToggle>
 
         </LinearLayout>
 
