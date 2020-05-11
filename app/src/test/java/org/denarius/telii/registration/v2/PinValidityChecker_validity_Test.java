@@ -1,8 +1,8 @@
-package org.thoughtcrime.securesms.registration.v2;
+package org.denarius.telii.registration.v2;
 
 import org.junit.Test;
-import org.thoughtcrime.securesms.registration.v2.testdata.PinValidityVector;
-import org.thoughtcrime.securesms.util.Util;
+import org.denarius.telii.registration.v2.testdata.PinValidityVector;
+import org.denarius.telii.util.Util;
 import org.whispersystems.signalservice.internal.registrationpin.PinValidityChecker;
 import org.whispersystems.signalservice.internal.util.JsonUtil;
 
