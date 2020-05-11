@@ -1,7 +1,3 @@
-ext {
-    key0 = 'C:\\Users\\carse\\Documents\\keystoreandroid.jks'
-}//import org.signal.signing.ApkSignerUtil
-
 import java.security.MessageDigest
 
 buildscript {
@@ -98,10 +94,6 @@ def abiPostFix = ['universal'   : 0,
 android {
     signingConfigs {
         release {
-            storeFile file(key0)
-            storePassword 'carsen69'
-            keyAlias = 'key0'
-            keyPassword 'carsen69'
         }
     }
     flavorDimensions "none"
