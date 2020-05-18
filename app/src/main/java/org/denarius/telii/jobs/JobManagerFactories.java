@@ -9,24 +9,24 @@ import org.denarius.telii.jobmanager.Constraint;
 import org.denarius.telii.jobmanager.ConstraintObserver;
 import org.denarius.telii.jobmanager.Job;
 import org.denarius.telii.jobmanager.JobMigration;
-import org.denarius.telii.jobmanager.impl.CellServiceConstraint;
 import org.denarius.telii.jobmanager.impl.CellServiceConstraintObserver;
 import org.denarius.telii.jobmanager.impl.NetworkConstraint;
 import org.denarius.telii.jobmanager.impl.NetworkConstraintObserver;
 import org.denarius.telii.jobmanager.impl.NetworkOrCellServiceConstraint;
 import org.denarius.telii.jobmanager.impl.SqlCipherMigrationConstraint;
 import org.denarius.telii.jobmanager.impl.SqlCipherMigrationConstraintObserver;
+import org.denarius.telii.jobmanager.migrations.PushProcessMessageQueueJobMigration;
 import org.denarius.telii.jobmanager.migrations.RecipientIdFollowUpJobMigration;
 import org.denarius.telii.jobmanager.migrations.RecipientIdFollowUpJobMigration2;
 import org.denarius.telii.jobmanager.migrations.RecipientIdJobMigration;
 import org.denarius.telii.jobmanager.migrations.SendReadReceiptsJobMigration;
 import org.denarius.telii.migrations.AvatarIdRemovalMigrationJob;
-import org.denarius.telii.migrations.PassingMigrationJob;
 import org.denarius.telii.migrations.AvatarMigrationJob;
 import org.denarius.telii.migrations.CachedAttachmentsMigrationJob;
 import org.denarius.telii.migrations.DatabaseMigrationJob;
 import org.denarius.telii.migrations.LegacyMigrationJob;
 import org.denarius.telii.migrations.MigrationCompleteJob;
+import org.denarius.telii.migrations.PassingMigrationJob;
 import org.denarius.telii.migrations.RecipientSearchMigrationJob;
 import org.denarius.telii.migrations.RegistrationPinV2MigrationJob;
 import org.denarius.telii.migrations.StickerAdditionMigrationJob;
@@ -91,6 +91,8 @@ public final class JobManagerFactories {
       put(RequestGroupInfoJob.KEY,                   new RequestGroupInfoJob.Factory());
       put(ResumableUploadSpecJob.KEY,                new ResumableUploadSpecJob.Factory());
       put(StorageAccountRestoreJob.KEY,              new StorageAccountRestoreJob.Factory());
+      put(RequestGroupV2InfoJob.KEY,                 new RequestGroupV2InfoJob.Factory());
+      put(GroupV2UpdateSelfProfileKeyJob.KEY,        new GroupV2UpdateSelfProfileKeyJob.Factory());
       put(RetrieveProfileAvatarJob.KEY,              new RetrieveProfileAvatarJob.Factory());
       put(RetrieveProfileJob.KEY,                    new RetrieveProfileJob.Factory());
       put(RotateCertificateJob.KEY,                  new RotateCertificateJob.Factory());
@@ -142,10 +144,10 @@ public final class JobManagerFactories {
 
   public static Map<String, Constraint.Factory> getConstraintFactories(@NonNull Application application) {
     return new HashMap<String, Constraint.Factory>() {{
-      put(CellServiceConstraint.KEY,          new CellServiceConstraint.Factory(application));
-      put(NetworkConstraint.KEY,              new NetworkConstraint.Factory(application));
-      put(NetworkOrCellServiceConstraint.KEY, new NetworkOrCellServiceConstraint.Factory(application));
-      put(SqlCipherMigrationConstraint.KEY,   new SqlCipherMigrationConstraint.Factory(application));
+      put(NetworkConstraint.KEY,                     new NetworkConstraint.Factory(application));
+      put(NetworkOrCellServiceConstraint.KEY,        new NetworkOrCellServiceConstraint.Factory(application));
+      put(NetworkOrCellServiceConstraint.LEGACY_KEY, new NetworkOrCellServiceConstraint.Factory(application));
+      put(SqlCipherMigrationConstraint.KEY,          new SqlCipherMigrationConstraint.Factory(application));
     }};
   }
 
@@ -159,6 +161,7 @@ public final class JobManagerFactories {
     return Arrays.asList(new RecipientIdJobMigration(application),
                          new RecipientIdFollowUpJobMigration(),
                          new RecipientIdFollowUpJobMigration2(),
-                         new SendReadReceiptsJobMigration(DatabaseFactory.getMmsSmsDatabase(application)));
+                         new SendReadReceiptsJobMigration(DatabaseFactory.getMmsSmsDatabase(application)),
+                         new PushProcessMessageQueueJobMigration(application));
   }
 }

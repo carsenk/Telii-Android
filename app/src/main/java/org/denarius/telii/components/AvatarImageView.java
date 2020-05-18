@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,6 @@ import org.denarius.telii.contacts.avatars.ResourceContactPhoto;
 import org.denarius.telii.mms.GlideApp;
 import org.denarius.telii.mms.GlideRequests;
 import org.denarius.telii.recipients.Recipient;
-import org.denarius.telii.recipients.RecipientExporter;
 import org.denarius.telii.util.AvatarUtil;
 import org.denarius.telii.util.ThemeUtil;
 
@@ -160,13 +158,12 @@ public final class AvatarImageView extends AppCompatImageView {
   }
 
   private void setAvatarClickHandler(final Recipient recipient, boolean quickContactEnabled) {
-    super.setOnClickListener(v -> {
-      if (quickContactEnabled) {
-        getContext().startActivity(RecipientPreferenceActivity.getLaunchIntent(getContext(), recipient.getId()));
-      } else if (listener != null) {
-        listener.onClick(v);
-      }
-    });
+    if (quickContactEnabled) {
+      super.setOnClickListener(v -> getContext().startActivity(RecipientPreferenceActivity.getLaunchIntent(getContext(), recipient.getId())));
+    } else {
+      super.setOnClickListener(listener);
+      setClickable(listener != null);
+    }
   }
 
   private static class RecipientContactPhoto {

@@ -44,7 +44,6 @@ import org.denarius.telii.jobs.CreateSignedPreKeyJob;
 import org.denarius.telii.jobs.FcmRefreshJob;
 import org.denarius.telii.jobs.MultiDeviceContactUpdateJob;
 import org.denarius.telii.jobs.PushNotificationReceiveJob;
-import org.denarius.telii.jobs.RefreshAttributesJob;
 import org.denarius.telii.jobs.RefreshPreKeysJob;
 import org.denarius.telii.logging.AndroidLogger;
 import org.denarius.telii.logging.CustomSignalProtocolLogger;
@@ -69,7 +68,6 @@ import org.denarius.telii.service.RotateSignedPreKeyListener;
 import org.denarius.telii.service.UpdateApkRefreshListener;
 import org.denarius.telii.storage.StorageSyncHelper;
 import org.denarius.telii.util.FeatureFlags;
-import org.denarius.telii.util.PlayServicesUtil;
 import org.denarius.telii.util.TextSecurePreferences;
 import org.denarius.telii.util.concurrent.SignalExecutors;
 import org.denarius.telii.util.dynamiclanguage.DynamicLanguageContextWrapper;
@@ -130,7 +128,6 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
     initializePendingMessages();
     initializeBlobProvider();
     initializeCleanup();
-    initializePlayServicesCheck();
 
     FeatureFlags.init();
     NotificationChannels.create(this);
@@ -378,21 +375,6 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
       int deleted = DatabaseFactory.getAttachmentDatabase(this).deleteAbandonedPreuploadedAttachments();
       Log.i(TAG, "Deleted " + deleted + " abandoned attachments.");
     });
-  }
-
-  private void initializePlayServicesCheck() {
-    if (TextSecurePreferences.isFcmDisabled(this)) {
-      PlayServicesUtil.PlayServicesStatus status = PlayServicesUtil.getPlayServicesStatus(this);
-
-      if (status == PlayServicesUtil.PlayServicesStatus.SUCCESS) {
-        Log.i(TAG, "Play Services are newly-available. Updating to use FCM.");
-
-        TextSecurePreferences.setFcmDisabled(this, false);
-        ApplicationDependencies.getJobManager().startChain(new FcmRefreshJob())
-                                               .then(new RefreshAttributesJob())
-                                               .enqueue();
-      }
-    }
   }
 
   @Override

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import org.denarius.telii.conversation.ConversationActivity;
 import org.denarius.telii.conversationlist.ConversationListArchiveFragment;
 import org.denarius.telii.conversationlist.ConversationListFragment;
+import org.denarius.telii.groups.ui.creategroup.CreateGroupActivity;
 import org.denarius.telii.insights.InsightsLauncher;
 import org.denarius.telii.recipients.RecipientId;
 
@@ -55,8 +56,8 @@ public class MainNavigator {
     return false;
   }
 
-  public void goToConversation(@NonNull RecipientId recipientId, long threadId, int distributionType, long lastSeen, int startingPosition) {
-    Intent intent = ConversationActivity.buildIntent(activity, recipientId, threadId, distributionType, lastSeen, startingPosition);
+  public void goToConversation(@NonNull RecipientId recipientId, long threadId, int distributionType, int startingPosition) {
+    Intent intent = ConversationActivity.buildIntent(activity, recipientId, threadId, distributionType, startingPosition);
 
     activity.startActivity(intent);
     activity.overridePendingTransition(R.anim.slide_from_end, R.anim.fade_scale_out);
@@ -77,8 +78,7 @@ public class MainNavigator {
   }
 
   public void goToGroupCreation() {
-    Intent intent = new Intent(activity, GroupCreateActivity.class);
-    activity.startActivity(intent);
+    activity.startActivity(CreateGroupActivity.newIntent(activity));
   }
 
   public void goToInvite() {

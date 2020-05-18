@@ -8,6 +8,7 @@ import org.denarius.telii.contactshare.Contact;
 import org.denarius.telii.database.model.MessageRecord;
 import org.denarius.telii.database.model.MmsMessageRecord;
 import org.denarius.telii.database.model.ReactionRecord;
+import org.denarius.telii.groups.GroupId;
 import org.denarius.telii.linkpreview.LinkPreview;
 import org.denarius.telii.mms.GlideRequests;
 import org.denarius.telii.recipients.Recipient;
@@ -45,5 +46,6 @@ public interface BindableConversationItem extends Unbindable {
     void onMessageSharedContactClicked(@NonNull List<Recipient> choices);
     void onInviteSharedContactClicked(@NonNull List<Recipient> choices);
     void onReactionClicked(long messageId, boolean isMms);
+    void onGroupMemberAvatarClicked(@NonNull RecipientId recipientId, @NonNull GroupId groupId);
   }
 }

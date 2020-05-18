@@ -28,7 +28,6 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -62,6 +61,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import org.denarius.telii.R;
+import org.denarius.telii.logging.Log;
 
 import java.io.FileDescriptor;
 import java.util.concurrent.Executor;

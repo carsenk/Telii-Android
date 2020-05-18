@@ -12,24 +12,25 @@ import com.google.protobuf.ByteString;
 import org.signal.storageservice.protos.groups.local.DecryptedGroup;
 import org.signal.storageservice.protos.groups.local.DecryptedPendingMember;
 import org.signal.zkgroup.InvalidInputException;
-import org.signal.zkgroup.VerificationFailedException;
 import org.signal.zkgroup.groups.UuidCiphertext;
 import org.signal.zkgroup.util.UUIDUtil;
 import org.denarius.telii.database.DatabaseFactory;
 import org.denarius.telii.database.GroupDatabase;
+import org.denarius.telii.groups.GroupChangeBusyException;
+import org.denarius.telii.groups.GroupChangeFailedException;
 import org.denarius.telii.groups.GroupId;
+import org.denarius.telii.groups.GroupInsufficientRightsException;
 import org.denarius.telii.groups.GroupManager;
+import org.denarius.telii.groups.GroupNotAMemberException;
 import org.denarius.telii.groups.GroupProtoUtil;
 import org.denarius.telii.logging.Log;
 import org.denarius.telii.recipients.Recipient;
 import org.denarius.telii.util.concurrent.SignalExecutors;
-import org.whispersystems.signalservice.api.groupsv2.InvalidGroupStateException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Executor;
 
 /**
@@ -104,7 +105,7 @@ final class PendingMemberRepository {
     try {
       GroupManager.cancelInvites(context, groupId, uuidCipherTexts);
       return true;
-    } catch (InvalidGroupStateException | VerificationFailedException | IOException e) {
+    } catch (GroupChangeFailedException | GroupInsufficientRightsException | IOException | GroupNotAMemberException | GroupChangeBusyException e) {
       Log.w(TAG, e);
       return false;
     }

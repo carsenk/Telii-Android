@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import org.denarius.telii.R;
 import org.denarius.telii.logging.Log;
 import org.denarius.telii.mms.VideoSlide;
-import org.denarius.telii.video.DecryptableUriVideoInput;
+import org.denarius.telii.media.DecryptableUriMediaInput;
 import org.denarius.telii.video.videoconverter.VideoThumbnailsRangeSelectorView;
 
 import java.io.IOException;
@@ -69,7 +69,7 @@ public final class VideoEditorHud extends LinearLayout {
       return;
     }
 
-    videoTimeLine.setInput(DecryptableUriVideoInput.createForUri(getContext(), uri));
+    videoTimeLine.setInput(DecryptableUriMediaInput.createForUri(getContext(), uri));
 
     videoTimeLine.setOnRangeChangeListener(new VideoThumbnailsRangeSelectorView.OnRangeChangeListener() {
 

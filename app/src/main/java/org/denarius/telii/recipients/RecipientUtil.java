@@ -12,22 +12,18 @@ import com.annimon.stream.Stream;
 import org.denarius.telii.R;
 import org.denarius.telii.contacts.sync.DirectoryHelper;
 import org.denarius.telii.database.DatabaseFactory;
-import org.denarius.telii.database.GroupDatabase;
 import org.denarius.telii.database.RecipientDatabase.RegisteredState;
 import org.denarius.telii.database.ThreadDatabase;
 import org.denarius.telii.dependencies.ApplicationDependencies;
-import org.denarius.telii.groups.GroupId;
+import org.denarius.telii.groups.GroupManager;
 import org.denarius.telii.jobs.DirectoryRefreshJob;
-import org.denarius.telii.jobs.LeaveGroupJob;
 import org.denarius.telii.jobs.MultiDeviceBlockedUpdateJob;
 import org.denarius.telii.jobs.MultiDeviceMessageRequestResponseJob;
 import org.denarius.telii.jobs.RotateProfileKeyJob;
 import org.denarius.telii.keyvalue.SignalStore;
 import org.denarius.telii.logging.Log;
-import org.denarius.telii.mms.OutgoingGroupMediaMessage;
 import org.denarius.telii.storage.StorageSyncHelper;
 import org.denarius.telii.util.FeatureFlags;
-import org.denarius.telii.util.GroupUtil;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
@@ -116,23 +112,9 @@ public class RecipientUtil {
       throw new AssertionError("Not a group!");
     }
 
-    if (DatabaseFactory.getGroupDatabase(context).isActive(resolved.requireGroupId())) {
-      long                                threadId     = DatabaseFactory.getThreadDatabase(context).getThreadIdFor(resolved);
-      Optional<OutgoingGroupMediaMessage> leaveMessage = GroupUtil.createGroupLeaveMessage(context, resolved);
-
-      if (threadId != -1 && leaveMessage.isPresent()) {
-        ApplicationDependencies.getJobManager().add(LeaveGroupJob.create(recipient));
-
-        GroupDatabase groupDatabase = DatabaseFactory.getGroupDatabase(context);
-        GroupId       groupId       = resolved.requireGroupId();
-        groupDatabase.setActive(groupId, false);
-        groupDatabase.remove(groupId, Recipient.self().getId());
-      } else {
-        Log.w(TAG, "Failed to leave group.");
-        Toast.makeText(context, R.string.RecipientPreferenceActivity_error_leaving_group, Toast.LENGTH_LONG).show();
-      }
-    } else {
-      Log.i(TAG, "Group was already inactive. Skipping.");
+    if (!GroupManager.silentLeaveGroup(context, resolved.requireGroupId().requirePush())) {
+      Log.w(TAG, "Failed to leave group.");
+      Toast.makeText(context, R.string.RecipientPreferenceActivity_error_leaving_group, Toast.LENGTH_LONG).show();
     }
   }
 

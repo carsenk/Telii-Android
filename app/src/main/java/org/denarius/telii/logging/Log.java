@@ -1,8 +1,11 @@
 package org.denarius.telii.logging;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.MainThread;
 
-public class Log {
+@SuppressLint("LogNotSignal")
+public final class Log {
 
   private static Logger[] loggers;
 

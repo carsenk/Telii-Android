@@ -28,7 +28,6 @@ import com.dd.CircularProgressButton;
 import org.denarius.telii.BuildConfig;
 import org.denarius.telii.MainActivity;
 import org.denarius.telii.R;
-import org.denarius.telii.keyvalue.SignalStore;
 import org.denarius.telii.lock.v2.KbsConstants;
 import org.denarius.telii.lock.v2.PinKeyboardType;
 import org.denarius.telii.logging.Log;
@@ -38,8 +37,8 @@ import org.denarius.telii.recipients.Recipient;
 import org.denarius.telii.registration.RegistrationUtil;
 import org.denarius.telii.util.CommunicationActions;
 import org.denarius.telii.util.ServiceUtil;
+import org.denarius.telii.util.SupportEmailUtil;
 import org.denarius.telii.util.ViewUtil;
-import org.whispersystems.signalservice.internal.storage.protos.SignalStorage;
 
 import java.util.Locale;
 
@@ -197,14 +196,14 @@ public class PinRestoreEntryFragment extends Fragment {
                    .setMessage(getString(R.string.PinRestoreEntryFragment_your_pin_is_a_d_digit_code, KbsConstants.MINIMUM_PIN_LENGTH))
                    .setPositiveButton(R.string.PinRestoreEntryFragment_create_new_pin, null)
                    .setNeutralButton(R.string.PinRestoreEntryFragment_contact_support, (dialog, which) -> {
+                     String body = SupportEmailUtil.generateSupportEmailBody(requireContext(),
+                                                                             getString(R.string.PinRestoreEntryFragment_signal_registration_need_help_with_pin),
+                                                                             null,
+                                                                             null);
                      CommunicationActions.openEmail(requireContext(),
-                                                    getString(R.string.PinRestoreEntryFragment_support_email),
+                                                    SupportEmailUtil.getSupportEmailAddress(requireContext()),
                                                     getString(R.string.PinRestoreEntryFragment_signal_registration_need_help_with_pin),
-                                                    getString(R.string.PinRestoreEntryFragment_subject_signal_registration,
-                                                              getDevice(),
-                                                              getAndroidVersion(),
-                                                              BuildConfig.VERSION_NAME,
-                                                              Locale.getDefault()));
+                                                    body);
                    })
                    .setNegativeButton(R.string.PinRestoreEntryFragment_cancel, null)
                    .show();
@@ -233,7 +232,7 @@ public class PinRestoreEntryFragment extends Fragment {
 
     if (Recipient.self().getProfileName().isEmpty() || !AvatarHelper.hasAvatar(activity, Recipient.self().getId())) {
       final Intent main    = new Intent(activity, MainActivity.class);
-      final Intent profile = EditProfileActivity.getIntent(activity, false);
+      final Intent profile = EditProfileActivity.getIntentForUserProfile(activity);
 
       profile.putExtra("next_intent", main);
       startActivity(profile);

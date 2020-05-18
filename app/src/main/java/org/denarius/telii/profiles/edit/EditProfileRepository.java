@@ -1,146 +1,27 @@
 package org.denarius.telii.profiles.edit;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
 import androidx.core.util.Consumer;
 
-import org.denarius.telii.database.DatabaseFactory;
-import org.denarius.telii.dependencies.ApplicationDependencies;
-import org.denarius.telii.jobs.MultiDeviceProfileContentUpdateJob;
-import org.denarius.telii.jobs.MultiDeviceProfileKeyUpdateJob;
-import org.denarius.telii.jobs.ProfileUploadJob;
-import org.denarius.telii.logging.Log;
-import org.denarius.telii.profiles.AvatarHelper;
-import org.denarius.telii.profiles.ProfileMediaConstraints;
 import org.denarius.telii.profiles.ProfileName;
-import org.denarius.telii.profiles.SystemProfileUtil;
-import org.denarius.telii.recipients.Recipient;
-import org.denarius.telii.recipients.RecipientId;
-import org.denarius.telii.util.Base64;
-import org.denarius.telii.util.ProfileUtil;
-import org.denarius.telii.util.TextSecurePreferences;
-import org.denarius.telii.util.Util;
-import org.denarius.telii.util.concurrent.ListenableFuture;
-import org.denarius.telii.util.concurrent.SignalExecutors;
-import org.denarius.telii.util.concurrent.SimpleTask;
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
+interface EditProfileRepository {
 
-class EditProfileRepository {
+  void getCurrentProfileName(@NonNull Consumer<ProfileName> profileNameConsumer);
 
-  private static final String TAG = Log.tag(EditProfileRepository.class);
+  void getCurrentAvatar(@NonNull Consumer<byte[]> avatarConsumer);
 
-  private final Context context;
-  private final boolean excludeSystem;
+  void getCurrentDisplayName(@NonNull Consumer<String> displayNameConsumer);
 
-  EditProfileRepository(@NonNull Context context, boolean excludeSystem) {
-    this.context        = context.getApplicationContext();
-    this.excludeSystem  = excludeSystem;
-  }
+  void uploadProfile(@NonNull ProfileName profileName, @Nullable String displayName, @Nullable byte[] avatar, boolean avatarChanged, @NonNull Consumer<UploadResult> uploadResultConsumer);
 
-  void getCurrentProfileName(@NonNull Consumer<ProfileName> profileNameConsumer) {
-    ProfileName storedProfileName = Recipient.self().getProfileName();
-    if (!storedProfileName.isEmpty()) {
-      profileNameConsumer.accept(storedProfileName);
-    } else if (!excludeSystem) {
-      SystemProfileUtil.getSystemProfileName(context).addListener(new ListenableFuture.Listener<String>() {
-        @Override
-        public void onSuccess(String result) {
-          if (!TextUtils.isEmpty(result)) {
-            profileNameConsumer.accept(ProfileName.fromSerialized(result));
-          } else {
-            profileNameConsumer.accept(storedProfileName);
-          }
-        }
+  void getCurrentUsername(@NonNull Consumer<Optional<String>> callback);
 
-        @Override
-        public void onFailure(ExecutionException e) {
-          Log.w(TAG, e);
-          profileNameConsumer.accept(storedProfileName);
-        }
-      });
-    } else {
-      profileNameConsumer.accept(storedProfileName);
-    }
-  }
-
-  void getCurrentAvatar(@NonNull Consumer<byte[]> avatarConsumer) {
-    RecipientId selfId = Recipient.self().getId();
-
-    if (AvatarHelper.hasAvatar(context, selfId)) {
-      SimpleTask.run(() -> {
-        try {
-          return Util.readFully(AvatarHelper.getAvatar(context, selfId));
-        } catch (IOException e) {
-          Log.w(TAG, e);
-          return null;
-        }
-      }, avatarConsumer::accept);
-    } else if (!excludeSystem) {
-      SystemProfileUtil.getSystemProfileAvatar(context, new ProfileMediaConstraints()).addListener(new ListenableFuture.Listener<byte[]>() {
-        @Override
-        public void onSuccess(byte[] result) {
-          avatarConsumer.accept(result);
-        }
-
-        @Override
-        public void onFailure(ExecutionException e) {
-          Log.w(TAG, e);
-          avatarConsumer.accept(null);
-        }
-      });
-    }
-  }
-
-  void uploadProfile(@NonNull ProfileName profileName, @Nullable byte[] avatar, @NonNull Consumer<UploadResult> uploadResultConsumer) {
-    SimpleTask.run(() -> {
-      DatabaseFactory.getRecipientDatabase(context).setProfileName(Recipient.self().getId(), profileName);
-
-      try {
-        AvatarHelper.setAvatar(context, Recipient.self().getId(), avatar != null ? new ByteArrayInputStream(avatar) : null);
-      } catch (IOException e) {
-        return UploadResult.ERROR_FILE_IO;
-      }
-
-      ApplicationDependencies.getJobManager()
-                             .startChain(new ProfileUploadJob())
-                             .then(Arrays.asList(new MultiDeviceProfileKeyUpdateJob(), new MultiDeviceProfileContentUpdateJob()))
-                             .enqueue();
-
-      return UploadResult.SUCCESS;
-    }, uploadResultConsumer::accept);
-  }
-
-  void getCurrentUsername(@NonNull Consumer<Optional<String>> callback) {
-    callback.accept(Optional.fromNullable(TextSecurePreferences.getLocalUsername(context)));
-    SignalExecutors.UNBOUNDED.execute(() -> callback.accept(getUsernameInternal()));
-  }
-
-  @WorkerThread
-  private @NonNull Optional<String> getUsernameInternal() {
-    try {
-      SignalServiceProfile profile = ProfileUtil.retrieveProfile(context, Recipient.self(), SignalServiceProfile.RequestType.PROFILE).getProfile();
-      TextSecurePreferences.setLocalUsername(context, profile.getUsername());
-      DatabaseFactory.getRecipientDatabase(context).setUsername(Recipient.self().getId(), profile.getUsername());
-    } catch (IOException e) {
-      Log.w(TAG, "Failed to retrieve username remotely! Using locally-cached version.");
-    }
-    return Optional.fromNullable(TextSecurePreferences.getLocalUsername(context));
-  }
-
-  public enum UploadResult {
+  enum UploadResult {
     SUCCESS,
-    ERROR_FILE_IO
+    ERROR_IO,
+    ERROR_BAD_RECIPIENT
   }
-
 }
