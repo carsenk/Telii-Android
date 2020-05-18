@@ -84,6 +84,7 @@ public class WalletFragment extends Fragment {
   private TextView               ViewSize;
   private TextView               ViewUSD;
   private TextView               ViewBTC;
+  private TextView               ViewVol;
 
   private volatile JsonObjectRequest      objectRequest;
   private volatile RequestQueue           requestQueue;
@@ -116,24 +117,35 @@ public class WalletFragment extends Fragment {
                 //Get the Response
                 double usdprice = 0;
                 double btcprice = 0;
+                double tvol = 0;
                 //int blocksize = 0;
                 try {
                   JSONObject jsonobj = response.getJSONObject("market_data").getJSONObject("current_price");
 
+                  JSONObject jsonobj2 = response.getJSONObject("market_data").getJSONObject("total_volume");
+
                   usdprice = jsonobj.getDouble("usd");
                   btcprice = jsonobj.getDouble("btc");
+
+                  tvol = jsonobj2.getDouble("usd");
 
                   NumberFormat df = DecimalFormat.getInstance();
                   df.setMinimumFractionDigits(2);
                   df.setMaximumFractionDigits(2);
-                  df.setRoundingMode(RoundingMode.DOWN);
+                  df.setRoundingMode(RoundingMode.HALF_UP);
 
                   NumberFormat df8 = DecimalFormat.getInstance();
                   df8.setMinimumFractionDigits(8);
                   df8.setMaximumFractionDigits(8);
                   df8.setRoundingMode(RoundingMode.DOWN);
 
-                  updateBH2(df.format(usdprice), df8.format(btcprice)); //Forces update on UI Thread
+                  NumberFormat dfv = DecimalFormat.getInstance();
+                  dfv.setMinimumFractionDigits(2);
+                  dfv.setMaximumFractionDigits(2);
+                  dfv.setRoundingMode(RoundingMode.HALF_UP);
+
+
+                  updateBH2(df.format(usdprice), df8.format(btcprice), dfv.format(tvol)); //Forces update on UI Thread
 
                   Log.i("CoinGecko DENARIUS USD Price Response", df.format(usdprice));
 
@@ -229,11 +241,12 @@ public class WalletFragment extends Fragment {
     }
   }
 
-  private void updateBH2(final String price, final String btc){
+  private void updateBH2(final String price, final String btc, final String vol){
     Runnable up = new Runnable(){
       public void run(){ //looks like the logs show its working
         ViewUSD.setText("$" + price);
         ViewBTC.setText(btc + " BTC");
+        ViewVol.setText("$" + vol);
       }
     };
     if(getActivity() != null) {
@@ -251,6 +264,7 @@ public class WalletFragment extends Fragment {
     ViewSize = l.findViewById(R.id.d_size);
     ViewUSD = l.findViewById(R.id.d_usd);
     ViewBTC = l.findViewById(R.id.d_btc);
+    ViewVol = l.findViewById(R.id.d_vol);
     return l;
   }
 
@@ -264,7 +278,7 @@ public class WalletFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    ((ApplicationPreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.preferences__wallet);
+    ((ApplicationPreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.preferences__dstats);
 
   }
 

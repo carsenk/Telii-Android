@@ -7,18 +7,18 @@ import org.denarius.telii.crypto.ProfileKeyUtil;
 import org.denarius.telii.database.DatabaseFactory;
 import org.denarius.telii.database.RecipientDatabase;
 import org.denarius.telii.dependencies.ApplicationDependencies;
+import org.denarius.telii.groups.GroupId;
 import org.denarius.telii.jobmanager.Data;
 import org.denarius.telii.jobmanager.Job;
 import org.denarius.telii.jobmanager.impl.NetworkConstraint;
 import org.denarius.telii.profiles.AvatarHelper;
 import org.denarius.telii.recipients.Recipient;
 import org.denarius.telii.util.FeatureFlags;
-import org.denarius.telii.util.TextSecurePreferences;
 import org.whispersystems.signalservice.api.SignalServiceAccountManager;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.util.StreamDetails;
 
-import java.util.UUID;
+import java.util.List;
 
 public class RotateProfileKeyJob extends BaseJob {
 
@@ -55,6 +55,7 @@ public class RotateProfileKeyJob extends BaseJob {
     Recipient                   self              = Recipient.self();
 
     recipientDatabase.setProfileKey(self.getId(), profileKey);
+
      try (StreamDetails avatarStream = AvatarHelper.getSelfProfileAvatarStream(context)) {
       if (FeatureFlags.VERSIONED_PROFILES) {
         accountManager.setVersionedProfile(self.getUuid().get(),
@@ -68,6 +69,16 @@ public class RotateProfileKeyJob extends BaseJob {
     }
 
     ApplicationDependencies.getJobManager().add(new RefreshAttributesJob());
+
+    updateProfileKeyOnAllV2Groups();
+  }
+
+  private void updateProfileKeyOnAllV2Groups() {
+    List<GroupId.V2> allGv2Groups = DatabaseFactory.getGroupDatabase(context).getAllGroupV2Ids();
+
+    for (GroupId.V2 groupId : allGv2Groups) {
+      ApplicationDependencies.getJobManager().add(new GroupV2UpdateSelfProfileKeyJob(groupId));
+    }
   }
 
   @Override

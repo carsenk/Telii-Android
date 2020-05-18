@@ -1,6 +1,9 @@
 package org.denarius.telii.logging;
 
-public class AndroidLogger extends Log.Logger {
+import android.annotation.SuppressLint;
+
+@SuppressLint("LogNotSignal")
+public final class AndroidLogger extends Log.Logger {
 
   @Override
   public void v(String tag, String message, Throwable t) {

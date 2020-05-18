@@ -7,8 +7,11 @@ import androidx.annotation.NonNull;
 import org.denarius.telii.BuildConfig;
 import org.denarius.telii.IncomingMessageProcessor;
 import org.denarius.telii.gcm.MessageRetriever;
+import org.denarius.telii.groups.GroupsV2AuthorizationMemoryValueCache;
+import org.denarius.telii.groups.v2.processing.GroupsV2StateProcessor;
 import org.denarius.telii.jobmanager.JobManager;
 import org.denarius.telii.keyvalue.KeyValueStore;
+import org.denarius.telii.keyvalue.SignalStore;
 import org.denarius.telii.megaphone.MegaphoneRepository;
 import org.denarius.telii.push.SignalServiceNetworkAccess;
 import org.denarius.telii.recipients.LiveRecipientCache;
@@ -22,6 +25,7 @@ import org.whispersystems.signalservice.api.KeyBackupService;
 import org.whispersystems.signalservice.api.SignalServiceAccountManager;
 import org.whispersystems.signalservice.api.SignalServiceMessageReceiver;
 import org.whispersystems.signalservice.api.SignalServiceMessageSender;
+import org.denarius.telii.groups.GroupsV2Authorization;
 import org.whispersystems.signalservice.api.groupsv2.GroupsV2Operations;
 
 /**
@@ -37,18 +41,20 @@ public class ApplicationDependencies {
   private static Application application;
   private static Provider    provider;
 
-  private static SignalServiceAccountManager       accountManager;
-  private static SignalServiceMessageSender        messageSender;
-  private static SignalServiceMessageReceiver      messageReceiver;
-  private static IncomingMessageProcessor          incomingMessageProcessor;
-  private static MessageRetriever                  messageRetriever;
-  private static LiveRecipientCache                recipientCache;
-  private static JobManager                        jobManager;
-  private static FrameRateTracker                  frameRateTracker;
-  private static KeyValueStore                     keyValueStore;
-  private static MegaphoneRepository               megaphoneRepository;
-  private static GroupsV2Operations                groupsV2Operations;
-  private static EarlyMessageCache                 earlyMessageCache;
+  private static SignalServiceAccountManager  accountManager;
+  private static SignalServiceMessageSender   messageSender;
+  private static SignalServiceMessageReceiver messageReceiver;
+  private static IncomingMessageProcessor     incomingMessageProcessor;
+  private static MessageRetriever             messageRetriever;
+  private static LiveRecipientCache           recipientCache;
+  private static JobManager                   jobManager;
+  private static FrameRateTracker             frameRateTracker;
+  private static KeyValueStore                keyValueStore;
+  private static MegaphoneRepository          megaphoneRepository;
+  private static GroupsV2Authorization        groupsV2Authorization;
+  private static GroupsV2StateProcessor       groupsV2StateProcessor;
+  private static GroupsV2Operations           groupsV2Operations;
+  private static EarlyMessageCache            earlyMessageCache;
 
   public static synchronized void init(@NonNull Application application, @NonNull Provider provider) {
     if (ApplicationDependencies.application != null || ApplicationDependencies.provider != null) {
@@ -74,6 +80,17 @@ public class ApplicationDependencies {
     return accountManager;
   }
 
+  public static synchronized @NonNull GroupsV2Authorization getGroupsV2Authorization() {
+    assertInitialization();
+
+    if (groupsV2Authorization == null) {
+      GroupsV2Authorization.ValueCache authCache = new GroupsV2AuthorizationMemoryValueCache(SignalStore.groupsV2AuthorizationCache());
+      groupsV2Authorization = new GroupsV2Authorization(getSignalServiceAccountManager().getGroupsV2Api(), authCache);
+    }
+
+    return groupsV2Authorization;
+  }
+
   public static synchronized @NonNull GroupsV2Operations getGroupsV2Operations() {
     assertInitialization();
 
@@ -89,6 +106,16 @@ public class ApplicationDependencies {
                                                                 BuildConfig.KBS_ENCLAVE_NAME,
                                                                 BuildConfig.KBS_MRENCLAVE,
                                                                 10);
+  }
+
+  public static synchronized @NonNull GroupsV2StateProcessor getGroupsV2StateProcessor() {
+    assertInitialization();
+
+    if (groupsV2StateProcessor == null) {
+      groupsV2StateProcessor = new GroupsV2StateProcessor(application);
+    }
+
+    return groupsV2StateProcessor;
   }
 
   public static synchronized @NonNull SignalServiceMessageSender getSignalServiceMessageSender() {

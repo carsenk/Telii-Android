@@ -19,12 +19,12 @@ import org.denarius.telii.jobs.AvatarGroupsV1DownloadJob;
 import org.denarius.telii.jobs.PushGroupUpdateJob;
 import org.denarius.telii.logging.Log;
 import org.denarius.telii.mms.MmsException;
-import org.denarius.telii.mms.OutgoingGroupMediaMessage;
+import org.denarius.telii.mms.OutgoingGroupUpdateMessage;
 import org.denarius.telii.notifications.MessageNotifier;
 import org.denarius.telii.recipients.Recipient;
 import org.denarius.telii.recipients.RecipientId;
 import org.denarius.telii.recipients.RecipientUtil;
-import org.denarius.telii.sms.IncomingGroupMessage;
+import org.denarius.telii.sms.IncomingGroupUpdateMessage;
 import org.denarius.telii.sms.IncomingTextMessage;
 import org.denarius.telii.util.Base64;
 import org.denarius.telii.util.FeatureFlags;
@@ -233,12 +233,12 @@ public final class GroupV1MessageProcessor {
 
     try {
       if (outgoing) {
-        MmsDatabase               mmsDatabase     = DatabaseFactory.getMmsDatabase(context);
-        RecipientId               recipientId     = DatabaseFactory.getRecipientDatabase(context).getOrInsertFromGroupId(GroupId.v1orThrow(group.getGroupId()));
-        Recipient                 recipient       = Recipient.resolved(recipientId);
-        OutgoingGroupMediaMessage outgoingMessage = new OutgoingGroupMediaMessage(recipient, storage, null, content.getTimestamp(), 0, false, null, Collections.emptyList(), Collections.emptyList());
-        long                      threadId        = DatabaseFactory.getThreadDatabase(context).getThreadIdFor(recipient);
-        long                      messageId       = mmsDatabase.insertMessageOutbox(outgoingMessage, threadId, false, null);
+        MmsDatabase                mmsDatabase     = DatabaseFactory.getMmsDatabase(context);
+        RecipientId                recipientId     = DatabaseFactory.getRecipientDatabase(context).getOrInsertFromGroupId(GroupId.v1orThrow(group.getGroupId()));
+        Recipient                  recipient       = Recipient.resolved(recipientId);
+        OutgoingGroupUpdateMessage outgoingMessage = new OutgoingGroupUpdateMessage(recipient, storage, null, content.getTimestamp(), 0, false, null, Collections.emptyList(), Collections.emptyList());
+        long                       threadId        = DatabaseFactory.getThreadDatabase(context).getThreadIdFor(recipient);
+        long                       messageId       = mmsDatabase.insertMessageOutbox(outgoingMessage, threadId, false, null);
 
         mmsDatabase.markAsSent(messageId, true);
 
@@ -247,7 +247,7 @@ public final class GroupV1MessageProcessor {
         SmsDatabase          smsDatabase  = DatabaseFactory.getSmsDatabase(context);
         String               body         = Base64.encodeBytes(storage.toByteArray());
         IncomingTextMessage  incoming     = new IncomingTextMessage(Recipient.externalPush(context, content.getSender()).getId(), content.getSenderDevice(), content.getTimestamp(), content.getServerTimestamp(), body, Optional.of(GroupId.v1orThrow(group.getGroupId())), 0, content.isNeedsReceipt());
-        IncomingGroupMessage groupMessage = new IncomingGroupMessage(incoming, storage, body);
+        IncomingGroupUpdateMessage groupMessage = new IncomingGroupUpdateMessage(incoming, storage, body);
 
         Optional<InsertResult> insertResult = smsDatabase.insertMessageInbox(groupMessage);
 

@@ -3,7 +3,6 @@ package org.denarius.telii.mediasend;
 import android.Manifest;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Size;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -19,6 +18,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import org.denarius.telii.R;
+import org.denarius.telii.logging.Log;
 import org.denarius.telii.mediasend.camerax.CameraXView;
 import org.denarius.telii.mediasend.camerax.VideoCapture;
 import org.denarius.telii.permissions.Permissions;

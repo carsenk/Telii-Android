@@ -25,10 +25,10 @@ import org.denarius.telii.R;
 import org.denarius.telii.database.DatabaseFactory;
 import org.denarius.telii.database.RecipientDatabase;
 import org.denarius.telii.database.RecipientDatabase.VibrateState;
+import org.denarius.telii.logging.Log;
 import org.denarius.telii.recipients.Recipient;
 import org.denarius.telii.util.ServiceUtil;
 import org.denarius.telii.util.TextSecurePreferences;
-import org.whispersystems.libsignal.logging.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import java.util.Set;
 
 public class NotificationChannels {
 
-  private static final String TAG = NotificationChannels.class.getSimpleName();
+  private static final String TAG = Log.tag(NotificationChannels.class);
 
   private static class Version {
     static final int MESSAGES_CATEGORY   = 2;

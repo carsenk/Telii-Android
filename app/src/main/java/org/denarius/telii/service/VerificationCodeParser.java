@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class VerificationCodeParser {
 
-  private static final Pattern CHALLENGE_PATTERN = Pattern.compile(".*Your (Telii|Signal|TextSecure) verification code:? ([0-9]{3,4})-([0-9]{3,4}).*", Pattern.DOTALL);
+  private static final Pattern CHALLENGE_PATTERN = Pattern.compile(".*Your (Signal|Telii|TextSecure) verification code:? ([0-9]{3,4})-([0-9]{3,4}).*", Pattern.DOTALL);
 
   public static Optional<String> parse(Context context, String messageBody) {
     if (messageBody == null) {
