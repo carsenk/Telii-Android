@@ -81,8 +81,8 @@ protobuf {
     }
 }
 
-def canonicalVersionCode = 632
-def canonicalVersionName = "1.0.4"
+def canonicalVersionCode = 633
+def canonicalVersionName = "1.0.5"
 
 def postFixSize = 10
 def abiPostFix = ['universal'   : 0,
@@ -258,7 +258,9 @@ android {
 dependencies {
     lintChecks project(':lintchecks')
 
-    implementation 'androidx.appcompat:appcompat:1.2.0-rc01'
+    implementation('androidx.appcompat:appcompat:1.1.0-beta01') {
+        force = true
+    }
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
